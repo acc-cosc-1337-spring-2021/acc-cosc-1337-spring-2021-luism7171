@@ -30,17 +30,7 @@ void TicTacToe::mark_board(int position){
   pegs[position - 1] = player;
   set_next_player();
 }
-//iterates the vector to make it look like a board
-void TicTacToe::display_board(){
-  for (int i = 0; i < 9; i += 3) {
-    cout << "  " << pegs[i] << "  |  " << pegs[i + 1] << "  |  "
-     << pegs[i + 2] << "  " << "\n";
-    if (i < 6) {
-      cout << "-----|-----|-----" << "\n";
-      }
-    }
-    cout << "\n";
-}
+
 //sets the other player opossite of first player
 void TicTacToe::set_next_player(){
   if(player == "X"){
@@ -160,3 +150,24 @@ bool TicTacToe::check_diagonal_win(){
     winner = "X";
   }
 }*/
+//ostream oveload displays the board
+std::ostream& operator<<(std::ostream& out, const TicTacToe& game){
+  for (int i = 0; i < game.pegs.size(); i += 3) {
+    out << "  " << game.pegs[i] << "  |  " << game.pegs[i + 1] << "  |  "
+     << game.pegs[i + 2] << "  " << "\n";
+    if (i < 6) {
+      out << "-----|-----|-----" << "\n";
+      }
+    }
+    out << "\n";
+  
+  return out;
+}
+//istream overload asks user to eneter a position and takes in the input to mark the board with it 
+std::istream& operator>>(std::istream& in,  TicTacToe& game){
+  int position;
+  cout<<"enter a position: ";
+  in>>position;
+  game.mark_board(position);
+  return in;
+}
