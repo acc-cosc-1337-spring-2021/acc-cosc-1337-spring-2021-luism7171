@@ -2,9 +2,10 @@
 #include "tic_tac_toe.h"
 #include "tic_tac_toe_manager.h"
 //adss games sends the winner of the game trough the updatewinner functio
-void TicTacToeManager::save_game(TicTacToe b){
-  games.push_back(b);
-  update_winner_count(b.get_winner());
+void TicTacToeManager::save_game(std::unique_ptr<TicTacToe> & b_ptr){
+  update_winner_count(b_ptr->get_winner());
+
+  games.push_back(std::move(b_ptr));
 }
 
 //every there is a winner it adds 1 to its veriable
@@ -33,9 +34,9 @@ void TicTacToeManager::get_winner_total(int& O, int& X, int& t ){
 //cout operator overload for manager displays the winner 
 std::ostream& operator<<(std::ostream& out, const TicTacToeManager& manager){
   //iterates the games vector
-  for(int i = 0; i < manager.games.size(); i++){
-    out<<manager.games[i]<<"\n";
-  }
+  //for(int i = 0; i < manager.games.size(); i++){
+    //out<<manager.games[i]<<"\n";
+  //}
   //if its only one win displays singular for x win
   if (manager.X_win == 1){
     out<<"X won " << manager.X_win << " time \n";
